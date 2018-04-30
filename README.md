@@ -1,10 +1,12 @@
 # HYPE
 Hypergraph partitioner.
 
+## Install 
 To use, simply install via the corresponding script. Makefile is contained. 
 
 We use the boost library.
 
+## How to Use
 To start the partitioner, follow the commands provided in the main file. The following arguments can be set:
 
 "help,h" -- display help message
