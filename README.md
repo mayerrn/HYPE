@@ -1,5 +1,5 @@
 # HYPE
-Hypergraph partitioner.
+Hypergraph partitioner based on the idea of neighborhood expansion that processes very large hypergraphs (with up to billions of vertices) using only a single thread. The source code is written in C++.
 
 ## How to build 
 To use, simply install via the corresponding script "build.sh". Makefile is contained. Runs with cmake.
