@@ -13,7 +13,7 @@ auto main(int argc, char const* argv[])
 {
     namespace po = boost::program_options;
 
-    po::options_description description{"Edgelist converter usage"};
+    po::options_description description{"HYPE - Hypergraph Partitioner using Neighbourhood Heuristics"};
 
 
     // clang-format off
@@ -72,7 +72,7 @@ auto main(int argc, char const* argv[])
     auto ssize = vm["sset-size"].as<std::size_t>();
     auto percent = vm["percent-of-edges-ignored"].as<double>();
     auto numb_of_neigs_flag = vm["heuristic-calc-method"].as<part::NodeHeuristicMode>();
-    auto raw = vm["thesis"].as<bool>();
+    auto raw = vm["raw"].as<bool>();
     auto numb_of_can = vm["nh-expand-candidates"].as<std::size_t>();
 
 
