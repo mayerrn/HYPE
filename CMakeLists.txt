@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
 
-project(NeigbourhoodPartitioner)
+project(HYPE)
 
 ############################
 ###Compiler flags
@@ -25,7 +25,7 @@ find_package (Threads)
 
 
 #compile sources
-add_executable(NeigbourhoodPartitioner
+add_executable(HYPE
     src/Hypergraph.cpp
     src/SSet.cpp
     src/Partition.cpp
@@ -34,11 +34,11 @@ add_executable(NeigbourhoodPartitioner
     main.cpp)
 
 # make headers available
-target_include_directories(NeigbourhoodPartitioner PUBLIC
+target_include_directories(HYPE PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${Boost_INCLUDE_DIR})
 
 #link against boost and thread libs
-target_link_libraries(NeigbourhoodPartitioner LINK_PUBLIC
+target_link_libraries(HYPE LINK_PUBLIC
   ${Boost_LIBRARIES}
   ${CMAKE_THREAD_LIBS_INIT})
