@@ -11,7 +11,7 @@ compiler, such as clang or gcc installed.
 Then run the following to build HYPE:
 ```sh
 git clone https://github.com/mayerrn/HYPE
-cd Hype
+cd HYPE
 mkdir build && cd build
 cmake ..
 make
@@ -32,14 +32,14 @@ Parameter | Effect
 `sset-size,s` | maximum size of the secondary set (called 'fringe' in the paper); in paper, this is set to 10
 `percent-of-edges-ignored,e` | how many percent of the biggest hyperedges will be removed; experimental, set to 0 to reproduce results from paper
 `neigs-calc-method,n` | Switch to choose between exact and cached calculation of number of neigbours of a vertex in the hypergraph
-`nh-expand-candidates,c` | number of candidates explored during neighbouhood expantion
+`nh-expand-candidates,c` | number of candidates explored during neighbouhood expantion. Using other values than 2 is not recommended. To reproduce the results from the paper don't use this option at all or set it to 2.
 
 ## Input Formats
 HYPE supports different input formats for the hypergraphs to make it easy to use.
 
 ### Bipartite
 HYPE is able to read in bipartite graphs and transform them directly into hypergraphs.
-To do so add the '-f bipartite' parameter when calling HYPE and make sure your input file
+To do so add the `-f bipartite` parameter when calling HYPE and make sure your input file
 has the following structure:
 ```
 vtx_id    vtx_id
@@ -65,3 +65,4 @@ For example:
 5: 3, 5, 7
 ```
 This would be a hypergraph with node `4` connected to edges `1,2,3,4,5` and so on.
+This file format was used in the paper.
