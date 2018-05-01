@@ -30,7 +30,7 @@ Parameter | Effect
 `percent-of-edges-ignored,e` | how many percent of the biggest hyperedges will be removed; experimental, set to 0 to reproduce results from paper
 `neigs-calc-method,n` | Switch to choose between exact and cached calculation of number of neigbours of a vertex in the hypergraph
 
-## input formats
+## Input Formats
 HYPE supports different input formats for the hypergraphs to make it easy to use.
 
 ### Bipartite
@@ -44,9 +44,11 @@ vtx_id    vtx_id
 ```
 which means each line models a edge from the vertex with the id on the 
 left side to the vertex with the id on the right side.
+Be aware that this input format is the slowest to read a hypergraph into HYPE
 
 ### hMetis
 When HYPE is called with `-f hmetis`, HYPE expects the input to have the [hMetis input file fomat](http://glaros.dtc.umn.edu/gkhome/fetch/sw/hmetis/manual.pdf)
+In our test the hMetis input format was the fastest to read in using HYPE.
 
 ### Edgelist
 Per default HYPE expects a file in the edgelist format.
@@ -58,4 +60,4 @@ For example:
 2: 1
 5: 3, 5, 7
 ```
-This would be a hypergraph were node `4` is connected to edges `1,2,3,4,5` and so on.
+This would be a hypergraph with node `4` connected to edges `1,2,3,4,5` and so on.
