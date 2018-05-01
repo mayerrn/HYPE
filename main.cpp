@@ -71,7 +71,7 @@ auto main(int argc, char const* argv[])
     auto partitions = vm["partitions"].as<std::size_t>();
     auto ssize = vm["sset-size"].as<std::size_t>();
     auto percent = vm["percent-of-edges-ignored"].as<double>();
-    auto numb_of_neigs_flag = vm["neigs-calc-method"].as<part::NodeHeuristicMode>();
+    auto numb_of_neigs_flag = vm["heuristic-calc-method"].as<part::NodeHeuristicMode>();
     auto raw = vm["thesis"].as<bool>();
     auto numb_of_can = vm["nh-expand-candidates"].as<std::size_t>();
 
