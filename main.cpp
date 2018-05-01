@@ -20,9 +20,9 @@ auto main(int argc, char const* argv[])
     description.add_options()
         ("help,h", "display this help message")
 
-        ("thesis,t",
+        ("raw,r",
          po::bool_switch()->default_value(false),
-         "making the life of lukas much more easy")
+         "output raw numbers to make it easier to redirect output into files")
 
         ("input,i",
          po::value<std::string>(),
@@ -39,6 +39,10 @@ auto main(int argc, char const* argv[])
         ("sset-size,s",
          po::value<std::size_t>()->default_value(3),
          "maximum size of the secondary set")
+
+        ("nh-expand-candidates,c",
+         po::value<std::size_t>()->default_value(2),
+         "number of candidates explored during neighbouhood expantion")
 
         ("percent-of-edges-ignored,e",
          po::value<double>()->default_value(1),
@@ -68,11 +72,12 @@ auto main(int argc, char const* argv[])
     auto ssize = vm["sset-size"].as<std::size_t>();
     auto percent = vm["percent-of-edges-ignored"].as<double>();
     auto numb_of_neigs_flag = vm["neigs-calc-method"].as<part::NodeHeuristicMode>();
-    auto thesis = vm["thesis"].as<bool>();
+    auto raw = vm["thesis"].as<bool>();
+    auto numb_of_can = vm["nh-expand-candidates"].as<std::size_t>();
 
 
 
-    if(!thesis) {
+    if(!raw) {
         std::cout << "----------------------------------------------------------------------------\n"
                   << "Partitioning Graph: "
                   << input_path
@@ -105,7 +110,7 @@ auto main(int argc, char const* argv[])
         std::chrono::duration_cast<std::chrono::milliseconds>(end - begin)
             .count();
 
-    if(!thesis) {
+    if(!raw) {
         std::cout << "graph parsed in "
                   << parsing_time
                   << " milliseconds\n"
@@ -123,6 +128,7 @@ auto main(int argc, char const* argv[])
     auto parts = part::partitionGraph(std::move(graph),
                                       partitions,
                                       ssize,
+                                      numb_of_can,
                                       percent,
                                       numb_of_neigs_flag);
     end = std::chrono::steady_clock::now();
@@ -145,7 +151,7 @@ auto main(int argc, char const* argv[])
     auto edge_cut = edge_cut_fut.get();
     auto k_minus_1 = k_minus_1_fut.get();
 
-    if(thesis) {
+    if(raw) {
         std::cout << partitions
                   << "\t\t"
                   << soed

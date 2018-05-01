@@ -9,6 +9,7 @@
 auto part::partitionGraph(Hypergraph&& graph,
                           std::size_t number_of_partitions,
                           std::size_t s_set_size,
+                          std::size_t s_set_candidates,
                           double ignore_biggest_edges_in_percent,
                           NodeHeuristicMode num_neigs_flag)
     -> std::vector<Partition>
@@ -48,7 +49,7 @@ auto part::partitionGraph(Hypergraph&& graph,
 
             //get candidates for sset expandion
             auto add_to_s = graph.getSSetCandidates(next_node,
-                                                    2,
+                                                    s_set_candidates,
                                                     max_edge_size);
 
             //delete next node from graph
