@@ -7,7 +7,7 @@
 namespace part {
 
 enum class NodeHeuristicMode {
-    Estimated,
+    Cached,
     Exact
 };
 
@@ -50,7 +50,7 @@ private:
             switch(_numb_of_neigs_flag) {
             case NodeHeuristicMode::Exact:
                 return _graph.getNodeHeuristicExactly(vtx);
-            case NodeHeuristicMode::Estimated:
+            case NodeHeuristicMode::Cached:
                 return _graph.getNodeHeuristicEstimate(vtx);
             }
 

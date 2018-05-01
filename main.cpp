@@ -40,7 +40,7 @@ auto main(int argc, char const* argv[])
          po::value<std::size_t>()->default_value(3),
          "maximum size of the secondary set")
 
-        ("nh-expand-candidates,c",
+        ("nh-expand-candidates,n",
          po::value<std::size_t>()->default_value(2),
          "number of candidates explored during neighbouhood expantion")
 
@@ -48,9 +48,9 @@ auto main(int argc, char const* argv[])
          po::value<double>()->default_value(1),
          "how many percent of the biggest edges will be removed")
 
-        ("neigs-calc-method,n",
-         po::value<part::NodeHeuristicMode>()->default_value(part::NodeHeuristicMode::Estimated),
-         "Switch to choose between exact and estimated calculation of number of neigbours of a node in the graph");
+        ("heuristic-calc-method,c",
+         po::value<part::NodeHeuristicMode>()->default_value(part::NodeHeuristicMode::Cached),
+         "Switch to choose between exact and cached calculation for the node heuristic");
     // clang-format on
 
     po::variables_map vm{};

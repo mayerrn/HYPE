@@ -9,8 +9,8 @@ auto part::operator>>(std::istream& in, part::NodeHeuristicMode& num)
     in >> token;
     if(token == "exact")
         num = part::NodeHeuristicMode::Exact;
-    else if(token == "estimated")
-        num = part::NodeHeuristicMode::Estimated;
+    else if(token == "cached")
+        num = part::NodeHeuristicMode::Cached;
     else
         in.setstate(std::ios_base::failbit);
     return in;
@@ -23,8 +23,8 @@ auto part::operator<<(std::ostream& os, const part::NodeHeuristicMode& num)
     case part::NodeHeuristicMode::Exact:
         os << "exact";
         break;
-    case part::NodeHeuristicMode::Estimated:
-        os << "estimated";
+    case part::NodeHeuristicMode::Cached:
+        os << "cached";
         break;
     default:
         os.setstate(std::ios_base::failbit);
