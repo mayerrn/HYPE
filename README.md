@@ -23,4 +23,4 @@ To start the partitioner, follow the commands provided in the main file. The fol
 
 "percent-of-edges-ignored,e" -- how many percent of the biggest hyperedges will be removed; experimental, set to 0 to reproduce results from paper
 
-"neigs-calc-method,n" -- Switch to choose between exact and cached calculation of number of neigbours of a vertex in the hypergraph; set to ? to reproduce results from paper
+"neigs-calc-method,n" -- Switch to choose between exact and cached calculation of number of neigbours of a vertex in the hypergraph
