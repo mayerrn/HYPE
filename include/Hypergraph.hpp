@@ -117,7 +117,6 @@ public:
 private:
     EdgeMap _edges;
     VertexMap _vertices;
-    std::size_t _ignore_edges;
     mutable std::unordered_map<uint64_t, double> _neigbour_map;
 };
 
