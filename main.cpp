@@ -1,7 +1,7 @@
 #include <Hypergraph.hpp>
+#include <Parsing.hpp>
 #include <Partition.hpp>
 #include <Partitioning.hpp>
-#include <Parsing.hpp>
 #include <SSet.hpp>
 #include <boost/program_options.hpp>
 #include <iostream>
@@ -37,7 +37,7 @@ auto main(int argc, char const* argv[])
          "number of partitions")
 
         ("sset-size,s",
-         po::value<std::size_t>()->default_value(3),
+         po::value<std::size_t>()->default_value(10),
          "maximum size of the secondary set")
 
         ("nh-expand-candidates,n",
@@ -45,7 +45,7 @@ auto main(int argc, char const* argv[])
          "number of candidates explored during neighbouhood expantion")
 
         ("percent-of-edges-ignored,e",
-         po::value<double>()->default_value(1),
+         po::value<double>()->default_value(0),
          "how many percent of the biggest edges will be removed")
 
         ("heuristic-calc-method,c",
@@ -104,7 +104,7 @@ auto main(int argc, char const* argv[])
     auto graph = part::parseFileIntoHypergraph(input_path, format);
     auto number_of_nodes = graph.getVertices().size();
     auto number_of_edges = graph.getEdges().size();
-    
+
     auto end = std::chrono::steady_clock::now();
     auto parsing_time =
         std::chrono::duration_cast<std::chrono::milliseconds>(end - begin)
@@ -121,7 +121,8 @@ auto main(int argc, char const* argv[])
                   << number_of_edges
                   << "\n"
                   << "----------------------------------------------------------------------------\n";
-        std::cout << "starting partitioning graph\n";
+
+        std::cout << "partitioning graph\n";
     }
 
     begin = std::chrono::steady_clock::now();
@@ -147,7 +148,7 @@ auto main(int argc, char const* argv[])
     //wait for all results
     auto soed = soed_fut.get();
     auto vtx_balance = vtx_balance_fut.get();
-    auto edge_balance   = edge_balance_fut.get();
+    auto edge_balance = edge_balance_fut.get();
     auto edge_cut = edge_cut_fut.get();
     auto k_minus_1 = k_minus_1_fut.get();
 
@@ -171,15 +172,16 @@ auto main(int argc, char const* argv[])
         std::cout << "partitioning done in "
                   << partitioning_time
                   << " milliseconds\n"
-                  << "----------------------------------------------------------------------------\n";
-        std::cout << "sum of external degrees: " << soed << "\n";
-        std::cout << "Hyperedges cut: " << edge_cut << "\n";
-        std::cout << "K-1: " << k_minus_1 <<  "\n";
-        std::cout << "node balancing: " << vtx_balance << "\n";
-        std::cout << "edge balancing: " << edge_balance << "\n";
-        std::cout << "parsing time: " << parsing_time << "\n";
-        std::cout << "partition time: " << partitioning_time << "\n";
-        std::cout << "total time: " << (parsing_time + partitioning_time) << std::endl;
+                  << "----------------------------------------------------------------------------\n"
+                  << "sum of external degrees: " << soed << "\n"
+                  << "Hyperedges cut: " << edge_cut << "\n"
+                  << "K-1: " << k_minus_1 << "\n"
+                  << "node balancing: " << vtx_balance << "\n"
+                  << "edge balancing: " << edge_balance << "\n"
+                  << "parsing time: " << parsing_time << "\n"
+                  << "partition time: " << partitioning_time << "\n"
+                  << "total time: " << (parsing_time + partitioning_time)
+                  << std::endl;
     }
 
     return 0;
