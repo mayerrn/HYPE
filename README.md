@@ -1,3 +1,6 @@
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
+
 # HYPE
 Hypergraph partitioner based on the idea of neighborhood expansion that processes very large hypergraphs (with up to billions of vertices) using only a single thread. The source code is written in C++.
 
