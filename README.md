@@ -32,6 +32,7 @@ Parameter | Effect
 `sset-size,s` | maximum size of the secondary set (called 'fringe' in the paper); in paper, this is set to 10
 `percent-of-edges-ignored,e` | how many percent of the biggest hyperedges will be removed; experimental, set to 0 to reproduce results from paper
 `neigs-calc-method,n` | Switch to choose between exact and cached calculation of number of neigbours of a vertex in the hypergraph
+`nh-expand-candidates,c` | number of candidates explored during neighbouhood expantion
 
 ## Input Formats
 HYPE supports different input formats for the hypergraphs to make it easy to use.
