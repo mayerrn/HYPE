@@ -22,10 +22,10 @@ namespace part {
  */
 auto partitionGraph(Hypergraph&& graph,
                     std::size_t number_of_partitions,
-                    std::size_t s_set_size = 3,
-                    std::size_t s_set_candidates = 2,
-                    double ignore_biggest_edges_in_percent = 1,
-                    NodeHeuristicMode num_neigs_flag = NodeHeuristicMode::Cached)
+                    std::size_t s_set_size,
+                    std::size_t s_set_candidates,
+                    double ignore_biggest_edges_in_percent,
+                    NodeHeuristicMode num_neigs_flag)
     -> std::vector<Partition>;
 
 /**
