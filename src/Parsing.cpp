@@ -137,7 +137,7 @@ auto part::parseFileIntoHypergraph(const std::string& path,
     std::ifstream edge_file(path);
     if(!edge_file) {
         std::cout << "file: " << path << "not found\n";
-        return {};
+        std::exit(-1);
     }
 
     //file iterators
