@@ -25,7 +25,7 @@ To start the partitioner, follow the commands provided in the main file. The fol
 Parameter | Effect
 ----------- | -----------
 `help,h` | display help message
-`thesis,t` | if set, output is formatted in csv to make it easier to plot directly. If not set, the output is more verbose.
+`raw,r` | if set, output is formatted in csv to make it easier to plot directly. If not set, the output is more verbose.
 `input,i`| input hypergraph file
 `format,f` | specify the input format of the hypergraph file
 `partitions,p` | number of partitions
