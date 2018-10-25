@@ -41,17 +41,24 @@ auto generate_hmetis_graph_parser(part::Hypergraph& graph)
     namespace x3 = boost::spirit::x3;
     namespace fusion = boost::fusion;
 
-    auto parsing_function = [&graph](auto&& ctx) {
+    uint64_t edge_id = 0;
+    auto parsing_function = [&graph,&edge_id](auto&& ctx) {
         std::vector<uint64_t> vtx_list;
-        uint64_t edge;
-        auto tup = std::tie(edge, vtx_list);
-
+        uint64_t first_vertex_of_edge;
+        auto tup = std::tie(first_vertex_of_edge, vtx_list);
         fusion::move(std::move(x3::_attr(std::move(ctx))), tup);
 
-        graph.addNodeList(edge, vtx_list);
+        vtx_list.push_back(first_vertex_of_edge);
+
+        // now vtx_list contains all pins of edge edge_id
+        graph.addNodeList(edge_id, vtx_list);
+
+
+        ++edge_id;
     };
 
-    auto line = x3::uint64 > +x3::uint64 > x3::eol;
+    // account for single-node hyperedges
+    auto line = x3::uint64 > *x3::uint64 > x3::eol;
     auto empty_edge = x3::uint64 > x3::eol;
 
     return x3::uint64
