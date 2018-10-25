@@ -74,7 +74,7 @@ auto part::getSumOfExteralDegrees(const std::vector<Partition>& partitions)
                           -> std::size_t {
                           //start futures
                           std::vector<std::future<std::size_t>> fut_vec;
-                          for(auto&& part : partitions.get()) {
+                          for(auto&& part : partitions) {
                               fut_vec.emplace_back(part.externalDegree(partitions));
                           }
                           //collect futures and accumulate the results
@@ -96,11 +96,11 @@ auto part::getHyperedgeCut(const std::vector<Partition>& partitions)
                       [](auto&& partitions)
                           -> std::size_t {
                           std::unordered_set<uint64_t> edges_cut;
-                          for(auto&& part : partitions.get()) {
+                          for(auto&& part : partitions) {
                               const auto& edges = part.getEdges();
 
                               for(auto&& edge : edges) {
-                                  for(auto&& nested_part : partitions.get()) {
+                                  for(auto&& nested_part : partitions) {
                                       if(part.getId() == nested_part.getId()){
                                           continue;
                                       }
@@ -126,8 +126,8 @@ auto part::getEdgeBalancing(const std::vector<Partition>& partitions)
                           -> double {
                           //get iterator to the biggest and smallest partition
                           auto[smallest_iter, biggest_iter] =
-                              std::minmax_element(std::cbegin(partitions.get()),
-                                                  std::cend(partitions.get()),
+                              std::minmax_element(std::cbegin(partitions),
+                                                  std::cend(partitions),
                                                   [](auto&& lhs, auto&& rhs) {
                                                       return lhs.numberOfEdges() < rhs.numberOfEdges();
                                                   });
@@ -149,8 +149,8 @@ auto part::getVertexBalancing(const std::vector<Partition>& partitions)
                           -> double {
                           //get iterator to the biggest and smallest partition
                           auto[smallest_iter, biggest_iter] =
-                              std::minmax_element(std::cbegin(partitions.get()),
-                                                  std::cend(partitions.get()),
+                              std::minmax_element(std::cbegin(partitions),
+                                                  std::cend(partitions),
                                                   [](auto&& lhs, auto&& rhs) {
                                                       return lhs.numberOfNodes() < rhs.numberOfNodes();
                                                   });
@@ -174,8 +174,8 @@ auto part::getKminus1Metric(const std::vector<Partition>& partitions,
                       [](auto&& partitions,
                          auto edges_in_graph)
                           -> std::size_t {
-                          return std::accumulate(std::cbegin(partitions.get()),
-                                                 std::cend(partitions.get()),
+                          return std::accumulate(std::cbegin(partitions),
+                                                 std::cend(partitions),
                                                  0,
                                                  [](auto init, auto&& part) {
                                                      return init + part.getEdges().size();
