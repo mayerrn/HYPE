@@ -53,8 +53,8 @@ auto part::Hypergraph::addNodeList(const uint64_t& edge,
 auto part::Hypergraph::connect(const uint64_t& vertex,
                                const uint64_t& edge) -> void
 {
-    auto[vertex_iter, dummy1] = addVertex(vertex);
-    auto[edge_iter, dummy2] = addEdge(edge);
+    auto [vertex_iter, dummy1] = addVertex(vertex);
+    auto [edge_iter, dummy2] = addEdge(edge);
 
     edge_iter->second.insert(vertex);
     vertex_iter->second.insert(edge);
@@ -122,7 +122,7 @@ auto addAtMostN(From&& from,
 
     //return new container with at most @param upto
     //elements
-    return to;
+    return std::move(to);
 }
 
 } // namespace
@@ -219,7 +219,7 @@ auto part::Hypergraph::getEdgesizeOfPercentBiggestEdge(double percent) const
 {
     const auto factor = 1 - percent / 100;
     std::vector<std::size_t> size_vec;
-    for(auto && [key, value] : _edges) {
+    for(auto&& [key, value] : _edges) {
         size_vec.push_back(value.size());
     }
 
