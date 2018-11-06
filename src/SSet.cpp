@@ -34,7 +34,37 @@ auto part::operator<<(std::ostream& os, const part::NodeHeuristicMode& num)
     return os;
 }
 
+auto part::operator>>(std::istream& in, part::NodeSelectionMode& num)
+    -> std::istream&
+{
+    std::string token;
+    in >> token;
+    if(token == "truly-random")
+        num = part::NodeSelectionMode::TrulyRandom;
+    else if(token == "next-best")
+        num = part::NodeSelectionMode::NextBest;
+    else
+        in.setstate(std::ios_base::failbit);
+    return in;
+}
 
+auto part::operator<<(std::ostream& os, const part::NodeSelectionMode& num)
+    -> std::ostream&
+{
+    switch(num) {
+    case part::NodeSelectionMode::TrulyRandom:
+        os << "truly-random";
+        break;
+    case part::NodeSelectionMode::NextBest:
+        os << "next-best";
+        break;
+    default:
+        os.setstate(std::ios_base::failbit);
+        break;
+    }
+
+    return os;
+}
 
 auto part::SSet::addNodes(const std::unordered_set<uint64_t>& nodes_to_add)
     -> void
@@ -109,7 +139,7 @@ auto part::SSet::getNextNode() const
         return min_node_opt.get();
     }
 
-    return _graph.getRandomNode();
+    return selectANode();
 }
 
 auto part::SSet::removeNode(const uint64_t& node)
@@ -126,16 +156,16 @@ auto part::SSet::removeNode(const uint64_t& node)
 }
 
 
-// auto part::SSet::selectRandomNode() const
-//     -> std::uint64_t
-// {
-//     switch(_node_select_flag) {
-//     case RandomNodeSelection::TrulyRandom:
-//         return _graph.getANode();
-//     case RandomNodeSelection::NextBest:
-//         return _graph.getRandomNode();
-//     }
-// }
+auto part::SSet::selectANode() const
+    -> std::uint64_t
+{
+    switch(_node_select_flag) {
+    case NodeSelectionMode::TrulyRandom:
+        return _graph.getRandomNode();
+    case NodeSelectionMode::NextBest:
+        return _graph.getANode();
+    }
+}
 
 auto part::SSet::getNodeHeuristic(std::uint64_t vtx) const
     -> std::size_t

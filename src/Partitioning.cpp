@@ -11,7 +11,8 @@ auto part::partitionGraph(Hypergraph&& graph,
                           std::size_t s_set_size,
                           std::size_t s_set_candidates,
                           double ignore_biggest_edges_in_percent,
-                          NodeHeuristicMode num_neigs_flag)
+                          NodeHeuristicMode num_neigs_flag,
+                          NodeSelectionMode node_select_flag)
     -> std::vector<Partition>
 {
     const auto delta = graph.getVertices().size()
@@ -28,7 +29,8 @@ auto part::partitionGraph(Hypergraph&& graph,
 
         SSet s_set{graph,
                    s_set_size,
-                   num_neigs_flag};
+                   num_neigs_flag,
+                   node_select_flag};
 
         //helper function to check if the partition is full
         auto is_partition_full = [&delta](auto&& partition) {
@@ -101,7 +103,7 @@ auto part::getHyperedgeCut(const std::vector<Partition>& partitions)
 
                               for(auto&& edge : edges) {
                                   for(auto&& nested_part : partitions) {
-                                      if(part.getId() == nested_part.getId()){
+                                      if(part.getId() == nested_part.getId()) {
                                           continue;
                                       }
 
@@ -125,7 +127,7 @@ auto part::getEdgeBalancing(const std::vector<Partition>& partitions)
                       [](auto&& partitions)
                           -> double {
                           //get iterator to the biggest and smallest partition
-                          auto[smallest_iter, biggest_iter] =
+                          auto [smallest_iter, biggest_iter] =
                               std::minmax_element(std::cbegin(partitions),
                                                   std::cend(partitions),
                                                   [](auto&& lhs, auto&& rhs) {
@@ -148,7 +150,7 @@ auto part::getVertexBalancing(const std::vector<Partition>& partitions)
                       [](auto&& partitions)
                           -> double {
                           //get iterator to the biggest and smallest partition
-                          auto[smallest_iter, biggest_iter] =
+                          auto [smallest_iter, biggest_iter] =
                               std::minmax_element(std::cbegin(partitions),
                                                   std::cend(partitions),
                                                   [](auto&& lhs, auto&& rhs) {

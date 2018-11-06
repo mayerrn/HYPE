@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iostream>
 #include <numeric>
+#include <random>
 #include <vector>
 
 
@@ -233,6 +234,18 @@ auto part::Hypergraph::getEdgesizeOfPercentBiggestEdge(double percent) const
 auto part::Hypergraph::getRandomNode() const
     -> uint64_t
 {
+    static std::mt19937 engine{Hypergraph::random_seed};
+    std::uniform_int_distribution<std::size_t> dist(0, _vertices.size() - 1);
+
+    auto iter = std::begin(_vertices);
+    std::advance(iter, dist(engine));
+
+    return iter->first;
+}
+
+auto part::Hypergraph::getANode() const
+    -> uint64_t
+{
     return _vertices.begin()->first;
 }
 
@@ -256,4 +269,11 @@ auto part::Hypergraph::deleteVertex(uint64_t vertex)
         _neigbour_map.erase(vertex);
         _vertices.erase(vertex_iter);
     }
+}
+
+
+auto part::Hypergraph::setSeed(int64_t seed)
+    -> void
+{
+    Hypergraph::random_seed = seed;
 }

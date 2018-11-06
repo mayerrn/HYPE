@@ -113,11 +113,18 @@ public:
     //returns a random node of the graph
     auto getRandomNode() const
         -> uint64_t;
+    //returns any node of the graph
+    auto getANode() const
+        -> uint64_t;
+
+    static auto setSeed(int64_t seed)
+        -> void;
 
 private:
     EdgeMap _edges;
     VertexMap _vertices;
     mutable std::unordered_map<uint64_t, double> _neigbour_map;
+    inline static int64_t random_seed;
 };
 
 } // namespace part

@@ -48,6 +48,14 @@ auto main(int argc, char const* argv[])
          po::value<double>()->default_value(0),
          "how many percent of the biggest edges will be removed")
 
+        ("node-select-mode,m",
+         po::value<part::NodeSelectionMode>()->default_value(part::NodeSelectionMode::NextBest),
+         "specifiys how the a node will be choosen to when sset is empty")
+
+        ("seed,x",
+         po::value<std::int64_t>()->default_value(0),
+         "seed used to initialze random number generators if used")
+
         ("heuristic-calc-method,c",
          po::value<part::NodeHeuristicMode>()->default_value(part::NodeHeuristicMode::Cached),
          "Switch to choose between exact and cached calculation for the node heuristic");
@@ -72,8 +80,10 @@ auto main(int argc, char const* argv[])
     auto ssize = vm["sset-size"].as<std::size_t>();
     auto percent = vm["percent-of-edges-ignored"].as<double>();
     auto numb_of_neigs_flag = vm["heuristic-calc-method"].as<part::NodeHeuristicMode>();
+    auto node_select_flag = vm["node-select-mode"].as<part::NodeSelectionMode>();
     auto raw = vm["raw"].as<bool>();
     auto numb_of_can = vm["nh-expand-candidates"].as<std::size_t>();
+    auto seed = vm["seed"].as<std::int64_t>();
 
 
 
@@ -92,12 +102,17 @@ auto main(int argc, char const* argv[])
                   << percent
                   << "% of edges will be ignored\n"
                   << "the neighbourhood heuristic of a node will be "
-                  << (numb_of_neigs_flag == part::NodeHeuristicMode::Exact ? "exact" : "estimated")
+                  << numb_of_neigs_flag
+                  << "\n"
+                  << "if sset is emtpy, new nodes will be selected: "
+                  << node_select_flag
                   << "\n"
                   << "----------------------------------------------------------------------------\n";
 
         std::cout << "parsing graph ...\n";
     }
+
+    part::Hypergraph::setSeed(seed);
 
     auto begin = std::chrono::steady_clock::now();
 
@@ -125,13 +140,15 @@ auto main(int argc, char const* argv[])
         std::cout << "partitioning graph\n";
     }
 
+
     begin = std::chrono::steady_clock::now();
     auto parts = part::partitionGraph(std::move(graph),
                                       partitions,
                                       ssize,
                                       numb_of_can,
                                       percent,
-                                      numb_of_neigs_flag);
+                                      numb_of_neigs_flag,
+                                      node_select_flag);
     end = std::chrono::steady_clock::now();
 
     auto partitioning_time =
