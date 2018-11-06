@@ -124,3 +124,26 @@ auto part::SSet::removeNode(const uint64_t& node)
         _nodes.erase(iter);
     }
 }
+
+
+// auto part::SSet::selectRandomNode() const
+//     -> std::uint64_t
+// {
+//     switch(_node_select_flag) {
+//     case RandomNodeSelection::TrulyRandom:
+//         return _graph.getANode();
+//     case RandomNodeSelection::NextBest:
+//         return _graph.getRandomNode();
+//     }
+// }
+
+auto part::SSet::getNodeHeuristic(std::uint64_t vtx) const
+    -> std::size_t
+{
+    switch(_numb_of_neigs_flag) {
+    case NodeHeuristicMode::Exact:
+        return _graph.getNodeHeuristicExactly(vtx);
+    case NodeHeuristicMode::Cached:
+        return _graph.getNodeHeuristicEstimate(vtx);
+    }
+}

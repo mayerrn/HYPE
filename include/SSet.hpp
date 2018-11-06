@@ -11,11 +11,20 @@ enum class NodeHeuristicMode {
     Exact
 };
 
+enum class RandomNodeSelection {
+    TrulyRandom,
+    NextBest
+};
+
 //needed to be able to use the NodeHeuristicNode enum
 //as commandline arument
 auto operator>>(std::istream& in, part::NodeHeuristicMode& num)
     -> std::istream&;
 auto operator<<(std::ostream& os, const part::NodeHeuristicMode& num)
+    -> std::ostream&;
+auto operator>>(std::istream& in, part::RandomNodeSelection& num)
+    -> std::istream&;
+auto operator<<(std::ostream& os, const part::RandomNodeSelection& num)
     -> std::ostream&;
 
 class SSet
@@ -41,20 +50,18 @@ public:
         -> void;
 
 private:
+    // auto selectRandomNode() const
+        // -> std::uint64_t;
+
+    auto getNodeHeuristic(std::uint64_t vtx) const
+        -> std::size_t;
+
+private:
     std::unordered_set<uint64_t> _nodes;
     const Hypergraph& _graph;
     std::size_t _max_size;
     NodeHeuristicMode _numb_of_neigs_flag;
-    const std::function<std::size_t(uint64_t)> getNodeHeuristic =
-        [&](uint64_t vtx) {
-            switch(_numb_of_neigs_flag) {
-            case NodeHeuristicMode::Exact:
-                return _graph.getNodeHeuristicExactly(vtx);
-            case NodeHeuristicMode::Cached:
-                return _graph.getNodeHeuristicEstimate(vtx);
-            }
-
-        };
+    // RandomNodeSelection _node_select_flag;
 };
 
 } // namespace part
