@@ -17,9 +17,11 @@ mkdir build && cd build
 cmake ..
 make
 ```
-To use Clang as compiler, run `cmake -DUSE_CLANG=ON ..` instead of `cmake ..`.
 Another option is to use the `build.sh` script which automaticaly creates the `build/` 
 folder, runs cmake and make in it for you.
+
+To use Clang as compiler, run `cmake -DUSE_CLANG=ON ..` instead of `cmake ..`.
+
 
 ## How to Use
 To start the partitioner, follow the commands provided in the main file. The following parameters can be set:
