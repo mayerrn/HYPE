@@ -7,6 +7,7 @@ Hypergraph partitioner based on the idea of neighborhood expansion that processe
 ## How to build 
 To build HYPE, make sure you have [Boost](https://www.boost.org/), [CMake](https://cmake.org) and a C++17 compatible
 compiler, such as clang or gcc installed.
+Tested were GCC7.3 and Clang 7. Use one of those two to build without any issues.
 
 Then run the following to build HYPE:
 ```sh
