@@ -85,8 +85,8 @@ auto part::SSet::addNodes(const std::unordered_set<uint64_t>& nodes_to_add)
 auto part::SSet::getMinElement() const
     -> boost::optional<uint64_t>
 {
-    boost::optional<std::size_t> neigs;
-    boost::optional<std::uint64_t> min_node;
+    auto neigs = boost::make_optional<std::size_t>(false, 0);
+    auto min_node = boost::make_optional<std::uint64_t>(false, 0);
 
     for(auto&& node : _nodes) {
         auto num_of_neigs = getNodeHeuristic(node);
