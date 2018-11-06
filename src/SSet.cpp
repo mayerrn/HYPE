@@ -104,9 +104,12 @@ auto part::SSet::getMinElement() const
 auto part::SSet::getNextNode() const
     -> uint64_t
 {
-    auto min_node_opt = getMinElement();
+    if(auto min_node_opt = getMinElement();
+       min_node_opt) {
+        return min_node_opt.get();
+    }
 
-    return min_node_opt.get_value_or(_graph.getRandomNode());
+    return _graph.getRandomNode();
 }
 
 auto part::SSet::removeNode(const uint64_t& node)
