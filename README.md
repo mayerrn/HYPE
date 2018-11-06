@@ -32,6 +32,8 @@ Parameter | Effect
 `sset-size,s` | maximum size of the secondary set (called 'fringe' in the paper); in paper, this is set to 10
 `percent-of-edges-ignored,e` | how many percent of the biggest hyperedges will be removed; experimental, set to 0 to reproduce results from paper
 `heuristic-calc-method,c` | Switch to choose between exact and cached calculation for the node heuristic 
+`seed,x` | Seed used to initialize random number generators if used
+`node-select-mode,m` | specifies how the a node will be choosen to when S-set is empty; in paper, `next-best` is used
 `nh-expand-candidates,n` | number of candidates explored during neighbourhood expantion. Using other values than 2 is not recommended. To reproduce the results from the paper don't use this option at all or set it to 2.
 
 ## Input Formats
