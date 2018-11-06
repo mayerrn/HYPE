@@ -50,7 +50,7 @@ auto main(int argc, char const* argv[])
 
         ("node-select-mode,m",
          po::value<part::NodeSelectionMode>()->default_value(part::NodeSelectionMode::NextBest),
-         "specifiys how the a node will be choosen to when sset is empty")
+         "specifies how the a node will be choosen to when sset is empty")
 
         ("seed,x",
          po::value<std::int64_t>()->default_value(0),
