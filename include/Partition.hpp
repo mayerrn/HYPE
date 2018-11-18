@@ -20,32 +20,32 @@ public:
     Partition(std::size_t);
 
     //add node and its hyperedges to the partition
-    auto addNode(uint64_t node,
-                 const std::vector<uint64_t>& edges)
+    auto addNode(int64_t node,
+                 const std::vector<int64_t>& edges)
         -> void;
 
     //same as above
-    auto addNode(uint64_t node,
-                 const std::unordered_set<uint64_t>& edges)
+    auto addNode(int64_t node,
+                 const std::unordered_set<int64_t>& edges)
         -> void;
 
     //checks if the partitions holds a vertex
     //which is connected to the given edge
-    auto hasEdge(uint64_t edge) const
+    auto hasEdge(int64_t edge) const
         -> bool;
     //return reference to the node set
     auto getNodes() const
-        -> const std::unordered_set<uint64_t>&;
+        -> const std::unordered_set<int64_t>&;
     //same as above
     auto getNodes()
-        -> std::unordered_set<uint64_t>&;
+        -> std::unordered_set<int64_t>&;
 
     //return reference to the edge set
     auto getEdges() const
-        -> const std::unordered_set<uint64_t>&;
+        -> const std::unordered_set<int64_t>&;
     //same as above
     auto getEdges()
-        -> std::unordered_set<uint64_t>&;
+        -> std::unordered_set<int64_t>&;
 
     //clears edge and node set
     auto clear()
@@ -70,8 +70,8 @@ public:
 
 private:
     std::size_t _id; //id of the partition
-    std::unordered_set<uint64_t> _nodes; //nodes in partition
-    std::unordered_set<uint64_t> _edges; //edges in partition
+    std::unordered_set<int64_t> _nodes; //nodes in partition
+    std::unordered_set<int64_t> _edges; //edges in partition
 };
 
 } // namespace part

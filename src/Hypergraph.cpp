@@ -5,7 +5,7 @@
 #include <vector>
 
 
-auto part::Hypergraph::addVertex(uint64_t id)
+auto part::Hypergraph::addVertex(int64_t id)
     -> std::pair<part::Hypergraph::VertexMapIter, bool>
 {
     if(auto iter = _vertices.find(id);
@@ -16,7 +16,7 @@ auto part::Hypergraph::addVertex(uint64_t id)
     }
 }
 
-auto part::Hypergraph::addEdge(uint64_t id)
+auto part::Hypergraph::addEdge(int64_t id)
     -> std::pair<part::Hypergraph::EdgeMapIter, bool>
 {
     if(auto iter = _edges.find(id);
@@ -27,8 +27,8 @@ auto part::Hypergraph::addEdge(uint64_t id)
     }
 }
 
-auto part::Hypergraph::addEdgeList(const uint64_t& vtx,
-                                   const std::vector<uint64_t>& edge_list)
+auto part::Hypergraph::addEdgeList(const int64_t& vtx,
+                                   const std::vector<int64_t>& edge_list)
     -> void
 {
     for(auto&& edge : edge_list) {
@@ -37,8 +37,8 @@ auto part::Hypergraph::addEdgeList(const uint64_t& vtx,
 }
 
 
-auto part::Hypergraph::addNodeList(const uint64_t& edge,
-                                   const std::vector<uint64_t>& node_list)
+auto part::Hypergraph::addNodeList(const int64_t& edge,
+                                   const std::vector<int64_t>& node_list)
     -> void
 {
     for(auto&& node : node_list) {
@@ -46,8 +46,8 @@ auto part::Hypergraph::addNodeList(const uint64_t& edge,
     }
 }
 
-auto part::Hypergraph::connect(const uint64_t& vertex,
-                               const uint64_t& edge) -> void
+auto part::Hypergraph::connect(const int64_t& vertex,
+                               const int64_t& edge) -> void
 {
     auto [vertex_iter, dummy1] = addVertex(vertex);
     auto [edge_iter, dummy2] = addEdge(edge);
@@ -56,7 +56,7 @@ auto part::Hypergraph::connect(const uint64_t& vertex,
     vertex_iter->second.insert(edge);
 }
 
-auto part::Hypergraph::getNodeHeuristicExactly(const uint64_t& vtx) const
+auto part::Hypergraph::getNodeHeuristicExactly(const int64_t& vtx) const
     -> double
 {
     const auto& edges = getEdgesOf(vtx);
@@ -74,7 +74,7 @@ auto part::Hypergraph::getNodeHeuristicExactly(const uint64_t& vtx) const
         / edges.size();
 }
 
-auto part::Hypergraph::getNodeHeuristicEstimate(const uint64_t& vtx) const
+auto part::Hypergraph::getNodeHeuristicEstimate(const int64_t& vtx) const
     -> double
 {
     if(auto iter = _neigbour_map.find(vtx);
@@ -123,16 +123,16 @@ auto addAtMostN(From&& from,
 
 } // namespace
 
-auto part::Hypergraph::getSSetCandidates(const uint64_t& vtx,
+auto part::Hypergraph::getSSetCandidates(const int64_t& vtx,
                                          std::size_t n,
                                          std::size_t max_edge_size) const
-    -> std::unordered_set<uint64_t>
+    -> std::unordered_set<int64_t>
 {
     //while we dont have reached the limit
     //and we dont have enough sset-candidates found
     //keep searching for them in bigger edges
     const auto& edges = getEdgesOf(vtx);
-    std::unordered_set<uint64_t> neigbors;
+    std::unordered_set<int64_t> neigbors;
     std::size_t current_max{2};
 
     while(current_max < max_edge_size
@@ -162,26 +162,26 @@ auto part::Hypergraph::getSSetCandidates(const uint64_t& vtx,
     return neigbors;
 }
 
-auto part::Hypergraph::getEdgesOf(const uint64_t& vtx) const
-    -> const std::unordered_set<uint64_t>&
+auto part::Hypergraph::getEdgesOf(const int64_t& vtx) const
+    -> const std::unordered_set<int64_t>&
 {
     if(auto iter = _vertices.find(vtx); iter != _vertices.end()) {
         return iter->second;
     } else {
         //needed to return a reference
-        static const std::unordered_set<uint64_t> empty_set;
+        static const std::unordered_set<int64_t> empty_set;
         return empty_set;
     }
 }
 
-auto part::Hypergraph::getVerticesOf(const uint64_t& edge) const
-    -> const std::unordered_set<uint64_t>&
+auto part::Hypergraph::getVerticesOf(const int64_t& edge) const
+    -> const std::unordered_set<int64_t>&
 {
     if(auto iter = _edges.find(edge); iter != _edges.end()) {
         return iter->second;
     } else {
         //needed to return a reference
-        static const std::unordered_set<uint64_t> empty_set;
+        static const std::unordered_set<int64_t> empty_set;
         return empty_set;
     }
 }
@@ -227,7 +227,7 @@ auto part::Hypergraph::getEdgesizeOfPercentBiggestEdge(double percent) const
 }
 
 auto part::Hypergraph::getRandomNode() const
-    -> uint64_t
+    -> int64_t
 {
     static std::mt19937 engine{Hypergraph::random_seed};
     std::uniform_int_distribution<std::size_t> dist(0, _vertices.size() - 1);
@@ -239,12 +239,12 @@ auto part::Hypergraph::getRandomNode() const
 }
 
 auto part::Hypergraph::getANode() const
-    -> uint64_t
+    -> int64_t
 {
     return _vertices.begin()->first;
 }
 
-auto part::Hypergraph::deleteVertex(uint64_t vertex)
+auto part::Hypergraph::deleteVertex(int64_t vertex)
     -> void
 {
     if(auto vertex_iter = _vertices.find(vertex);

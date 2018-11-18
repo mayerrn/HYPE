@@ -25,7 +25,7 @@ auto part::partitionGraph(Hypergraph&& graph,
 
     std::vector<Partition> part_vec;
 
-    for(int i = 0; i < number_of_partitions; ++i) {
+    for(std::size_t i = 0; i < number_of_partitions; ++i) {
         Partition part{static_cast<size_t>(i)};
 
         SSet s_set{graph,
@@ -98,7 +98,7 @@ auto part::getHyperedgeCut(const std::vector<Partition>& partitions)
     return std::async(std::launch::async,
                       [](auto&& partitions)
                           -> std::size_t {
-                          std::unordered_set<uint64_t> edges_cut;
+                          std::unordered_set<int64_t> edges_cut;
                           for(auto&& part : partitions) {
                               const auto& edges = part.getEdges();
 

@@ -7,25 +7,25 @@ part::Partition::Partition(std::size_t id)
     : _id(id) {}
 
 auto part::Partition::getNodes() const
-    -> const std::unordered_set<uint64_t>&
+    -> const std::unordered_set<int64_t>&
 {
     return _nodes;
 }
 
 auto part::Partition::getNodes()
-    -> std::unordered_set<uint64_t>&
+    -> std::unordered_set<int64_t>&
 {
     return _nodes;
 }
 
 auto part::Partition::getEdges() const
-    -> const std::unordered_set<uint64_t>&
+    -> const std::unordered_set<int64_t>&
 {
     return _edges;
 }
 
 auto part::Partition::getEdges()
-    -> std::unordered_set<uint64_t>&
+    -> std::unordered_set<int64_t>&
 {
     return _edges;
 }
@@ -36,23 +36,23 @@ auto part::Partition::getId() const
     return _id;
 }
 
-auto part::Partition::hasEdge(uint64_t elem) const
+auto part::Partition::hasEdge(int64_t elem) const
     -> bool
 {
     auto iter = _edges.find(elem);
     return iter != _edges.end();
 }
 
-auto part::Partition::addNode(uint64_t elem,
-                              const std::vector<uint64_t>& edges)
+auto part::Partition::addNode(int64_t elem,
+                              const std::vector<int64_t>& edges)
     -> void
 {
     _nodes.insert(elem);
     _edges.insert(edges.begin(), edges.end());
 }
 
-auto part::Partition::addNode(uint64_t elem,
-                              const std::unordered_set<uint64_t>& edges)
+auto part::Partition::addNode(int64_t elem,
+                              const std::unordered_set<int64_t>& edges)
     -> void
 {
     _nodes.insert(elem);

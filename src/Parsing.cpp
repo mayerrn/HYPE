@@ -19,8 +19,8 @@ auto generate_edgelist_graph_parser(part::Hypergraph& graph)
     namespace fusion = boost::fusion;
 
     auto parsing_function = [&graph](auto&& ctx) {
-        std::vector<uint64_t> edge_list;
-        uint64_t vtx;
+        std::vector<int64_t> edge_list;
+        int64_t vtx;
         auto tup = std::tie(vtx, edge_list);
 
         fusion::move(std::move(x3::_attr(std::move(ctx))), tup);
@@ -28,8 +28,8 @@ auto generate_edgelist_graph_parser(part::Hypergraph& graph)
         graph.addEdgeList(vtx, edge_list);
     };
 
-    auto line = (x3::uint64 >> ':') > (x3::uint64 % ',');
-    auto empty_node = x3::uint64;
+    auto line = (x3::int64 >> ':') > (x3::int64 % ',');
+    auto empty_node = x3::int64;
 
     return +(line[parsing_function] | empty_node);
 };
@@ -41,10 +41,10 @@ auto generate_hmetis_graph_parser(part::Hypergraph& graph)
     namespace x3 = boost::spirit::x3;
     namespace fusion = boost::fusion;
 
-    uint64_t edge_id = 0;
+    int64_t edge_id = 0;
     auto parsing_function = [&graph,&edge_id](auto&& ctx) {
-        std::vector<uint64_t> vtx_list;
-        uint64_t first_vertex_of_edge;
+        std::vector<int64_t> vtx_list;
+        int64_t first_vertex_of_edge;
         auto tup = std::tie(first_vertex_of_edge, vtx_list);
         fusion::move(std::move(x3::_attr(std::move(ctx))), tup);
 
@@ -58,11 +58,11 @@ auto generate_hmetis_graph_parser(part::Hypergraph& graph)
     };
 
     // account for single-node hyperedges
-    auto line = x3::uint64 > *x3::uint64 > x3::eol;
-    auto empty_edge = x3::uint64 > x3::eol;
+    auto line = x3::int64 > *x3::int64 > x3::eol;
+    auto empty_edge = x3::int64 > x3::eol;
 
-    return x3::uint64
-        > x3::uint64
+    return x3::int64
+        > x3::int64
         > x3::eol // parse the first two numbers of the
         //hmetis file and do nothing with it
         > +(line[parsing_function]
@@ -77,8 +77,8 @@ auto generate_bipartite_graph_parser(part::Hypergraph& graph)
     namespace fusion = boost::fusion;
 
     auto parsing_function = [&graph](auto&& ctx) {
-        uint64_t vtx;
-        uint64_t edge;
+        int64_t vtx;
+        int64_t edge;
         auto tup = std::tie(edge, vtx);
 
         fusion::move(std::move(x3::_attr(std::move(ctx))), tup);
@@ -86,8 +86,8 @@ auto generate_bipartite_graph_parser(part::Hypergraph& graph)
         graph.connect(edge, vtx);
     };
 
-    auto line = x3::uint64
-        > x3::uint64
+    auto line = x3::int64
+        > x3::int64
         > x3::eol;
 
     return +(line[parsing_function]);

@@ -39,27 +39,27 @@ public:
           _numb_of_neigs_flag(numb_of_neigs_flag),
           _node_select_flag(node_select_flag) {}
 
-    auto addNodes(const std::unordered_set<uint64_t>& nodes_to_add)
+    auto addNodes(const std::unordered_set<int64_t>& nodes_to_add)
         -> void;
 
     auto getMinElement() const
-        -> std::optional<uint64_t>;
+        -> std::optional<int64_t>;
 
     auto getNextNode() const
-        -> uint64_t;
+        -> int64_t;
 
-    auto removeNode(const uint64_t& node)
+    auto removeNode(const int64_t& node)
         -> void;
 
 private:
-    auto getNodeHeuristic(std::uint64_t vtx) const
+    auto getNodeHeuristic(std::int64_t vtx) const
         -> std::size_t;
 
     auto selectANode() const
-        -> std::uint64_t;
+        -> std::int64_t;
 
 private:
-    std::unordered_set<uint64_t> _nodes;
+    std::unordered_set<int64_t> _nodes;
     const Hypergraph& _graph;
     std::size_t _max_size;
     NodeHeuristicMode _numb_of_neigs_flag;

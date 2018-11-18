@@ -67,11 +67,11 @@ auto part::operator<<(std::ostream& os, const part::NodeSelectionMode& num)
     return os;
 }
 
-auto part::SSet::addNodes(const std::unordered_set<uint64_t>& nodes_to_add)
+auto part::SSet::addNodes(const std::unordered_set<int64_t>& nodes_to_add)
     -> void
 {
     //create vec with number of neigs pair
-    std::vector<std::pair<uint64_t, std::size_t>> nodes_to_add_neig_vec;
+    std::vector<std::pair<int64_t, std::size_t>> nodes_to_add_neig_vec;
     for(auto&& node : nodes_to_add) {
         auto neigs = getNodeHeuristic(node);
         nodes_to_add_neig_vec.emplace_back(node, neigs);
@@ -83,7 +83,7 @@ auto part::SSet::addNodes(const std::unordered_set<uint64_t>& nodes_to_add)
               [](auto lhs, auto rhs) { return lhs.second < rhs.second; });
 
     //do the same with the nodes of this sset
-    std::vector<std::pair<uint64_t, std::size_t>> nodes_neig_vec;
+    std::vector<std::pair<int64_t, std::size_t>> nodes_neig_vec;
     for(auto&& node : _nodes) {
         auto neigs = getNodeHeuristic(node);
         nodes_neig_vec.emplace_back(node, neigs);
@@ -95,7 +95,7 @@ auto part::SSet::addNodes(const std::unordered_set<uint64_t>& nodes_to_add)
 
 
     //merge the two sorted vectors
-    std::vector<std::pair<uint64_t, std::size_t>> merged_vec;
+    std::vector<std::pair<int64_t, std::size_t>> merged_vec;
     std::merge(std::begin(nodes_neig_vec),
                std::end(nodes_neig_vec),
                std::begin(nodes_to_add_neig_vec),
@@ -108,16 +108,16 @@ auto part::SSet::addNodes(const std::unordered_set<uint64_t>& nodes_to_add)
 
     //replace with the smallest n nodes from the merged vector
     auto range = std::min(merged_vec.size(), _max_size);
-    for(int i{0}; i < range; ++i) {
+    for(std::size_t i{0}; i < range; ++i) {
         _nodes.insert(merged_vec[i].first);
     }
 }
 
 auto part::SSet::getMinElement() const
-    -> std::optional<uint64_t>
+    -> std::optional<int64_t>
 {
     std::optional<std::size_t> neigs;
-    std::optional<std::uint64_t> min_node;
+    std::optional<std::int64_t> min_node;
 
     for(auto&& node : _nodes) {
         auto num_of_neigs = getNodeHeuristic(node);
@@ -133,7 +133,7 @@ auto part::SSet::getMinElement() const
 }
 
 auto part::SSet::getNextNode() const
-    -> uint64_t
+    -> int64_t
 {
     if(auto min_node_opt = getMinElement();
        min_node_opt) {
@@ -143,7 +143,7 @@ auto part::SSet::getNextNode() const
     return selectANode();
 }
 
-auto part::SSet::removeNode(const uint64_t& node)
+auto part::SSet::removeNode(const int64_t& node)
     -> void
 {
     auto iter = _nodes.begin();
@@ -158,23 +158,23 @@ auto part::SSet::removeNode(const uint64_t& node)
 
 
 auto part::SSet::selectANode() const
-    -> std::uint64_t
+    -> std::int64_t
 {
     switch(_node_select_flag) {
     case NodeSelectionMode::TrulyRandom:
         return _graph.getRandomNode();
-    case NodeSelectionMode::NextBest:
+    default:
         return _graph.getANode();
     }
 }
 
-auto part::SSet::getNodeHeuristic(std::uint64_t vtx) const
+auto part::SSet::getNodeHeuristic(std::int64_t vtx) const
     -> std::size_t
 {
     switch(_numb_of_neigs_flag) {
     case NodeHeuristicMode::Exact:
         return _graph.getNodeHeuristicExactly(vtx);
-    case NodeHeuristicMode::Cached:
+    default:
         return _graph.getNodeHeuristicEstimate(vtx);
     }
 }
