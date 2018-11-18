@@ -2,6 +2,7 @@
 #include <Partition.hpp>
 #include <Partitioning.hpp>
 #include <SSet.hpp>
+#include <algorithm>
 #include <iostream>
 #include <numeric>
 

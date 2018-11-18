@@ -1,5 +1,6 @@
 #include <SSet.hpp>
 #include <algorithm>
+#include <optional>
 
 
 auto part::operator>>(std::istream& in, part::NodeHeuristicMode& num)
@@ -113,16 +114,16 @@ auto part::SSet::addNodes(const std::unordered_set<uint64_t>& nodes_to_add)
 }
 
 auto part::SSet::getMinElement() const
-    -> boost::optional<uint64_t>
+    -> std::optional<uint64_t>
 {
-    auto neigs = boost::make_optional<std::size_t>(false, 0);
-    auto min_node = boost::make_optional<std::uint64_t>(false, 0);
+    std::optional<std::size_t> neigs;
+    std::optional<std::uint64_t> min_node;
 
     for(auto&& node : _nodes) {
         auto num_of_neigs = getNodeHeuristic(node);
         if(num_of_neigs <= 1) {
             return node;
-        } else if(!neigs || neigs.get() > num_of_neigs) {
+        } else if(!neigs || neigs.value() > num_of_neigs) {
             neigs = num_of_neigs;
             min_node = node;
         }
@@ -136,7 +137,7 @@ auto part::SSet::getNextNode() const
 {
     if(auto min_node_opt = getMinElement();
        min_node_opt) {
-        return min_node_opt.get();
+        return min_node_opt.value();
     }
 
     return selectANode();

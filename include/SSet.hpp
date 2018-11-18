@@ -1,8 +1,8 @@
 #pragma once
 
 #include <Hypergraph.hpp>
-#include <boost/optional.hpp>
 #include <iostream>
+#include <optional>
 
 namespace part {
 
@@ -43,7 +43,7 @@ public:
         -> void;
 
     auto getMinElement() const
-        -> boost::optional<uint64_t>;
+        -> std::optional<uint64_t>;
 
     auto getNextNode() const
         -> uint64_t;
