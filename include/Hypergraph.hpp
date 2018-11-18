@@ -117,14 +117,14 @@ public:
     auto getANode() const
         -> uint64_t;
 
-    static auto setSeed(int64_t seed)
+    static auto setSeed(uint32_t seed)
         -> void;
 
 private:
     EdgeMap _edges;
     VertexMap _vertices;
     mutable std::unordered_map<uint64_t, double> _neigbour_map;
-    inline static int64_t random_seed;
+    inline static uint32_t random_seed;
 };
 
 } // namespace part

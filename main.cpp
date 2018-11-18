@@ -53,7 +53,7 @@ auto main(int argc, char const* argv[])
          "specifies how the a node will be choosen to when sset is empty")
 
         ("seed,x",
-         po::value<std::int64_t>()->default_value(0),
+         po::value<std::uint32_t>()->default_value(0),
          "seed used to initialze random number generators if used")
 
         ("heuristic-calc-method,c",
@@ -83,7 +83,7 @@ auto main(int argc, char const* argv[])
     auto node_select_flag = vm["node-select-mode"].as<part::NodeSelectionMode>();
     auto raw = vm["raw"].as<bool>();
     auto numb_of_can = vm["nh-expand-candidates"].as<std::size_t>();
-    auto seed = vm["seed"].as<std::int64_t>();
+    auto seed = vm["seed"].as<std::uint32_t>();
 
 
 

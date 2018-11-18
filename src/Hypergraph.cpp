@@ -272,7 +272,7 @@ auto part::Hypergraph::deleteVertex(uint64_t vertex)
 }
 
 
-auto part::Hypergraph::setSeed(int64_t seed)
+auto part::Hypergraph::setSeed(uint32_t seed)
     -> void
 {
     Hypergraph::random_seed = seed;
