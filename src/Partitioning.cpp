@@ -73,8 +73,7 @@ auto part::getSumOfExteralDegrees(const std::vector<Partition>& partitions)
     -> std::future<std::size_t>
 {
     return std::async(std::launch::async,
-                      [](const auto& partitions)
-                          -> std::size_t {
+                      [&partitions]() -> std::size_t {
                           //start futures
                           std::vector<std::future<std::size_t>> fut_vec;
                           for(auto&& part : partitions) {
@@ -87,8 +86,7 @@ auto part::getSumOfExteralDegrees(const std::vector<Partition>& partitions)
                                                  [](auto init, auto&& fut) {
                                                      return init + fut.get();
                                                  });
-                      },
-                      std::cref(partitions));
+                      });
 }
 
 
@@ -96,8 +94,7 @@ auto part::getHyperedgeCut(const std::vector<Partition>& partitions)
     -> std::future<std::size_t>
 {
     return std::async(std::launch::async,
-                      [](auto&& partitions)
-                          -> std::size_t {
+                      [&partitions]() -> std::size_t {
                           std::unordered_set<int64_t> edges_cut;
                           for(auto&& part : partitions) {
                               const auto& edges = part.getEdges();
@@ -116,8 +113,7 @@ auto part::getHyperedgeCut(const std::vector<Partition>& partitions)
                           }
 
                           return edges_cut.size();
-                      },
-                      std::cref(partitions));
+                      });
 }
 
 
@@ -125,8 +121,7 @@ auto part::getEdgeBalancing(const std::vector<Partition>& partitions)
     -> std::future<double>
 {
     return std::async(std::launch::async,
-                      [](auto&& partitions)
-                          -> double {
+                      [&partitions]() -> double {
                           //get iterator to the biggest and smallest partition
                           auto [smallest_iter, biggest_iter] =
                               std::minmax_element(std::cbegin(partitions),
@@ -140,16 +135,14 @@ auto part::getEdgeBalancing(const std::vector<Partition>& partitions)
 
                           return (biggest - smallest)
                               / static_cast<double>(biggest);
-                      },
-                      std::cref(partitions));
+                      });
 }
 
 auto part::getVertexBalancing(const std::vector<Partition>& partitions)
     -> std::future<double>
 {
     return std::async(std::launch::async,
-                      [](auto&& partitions)
-                          -> double {
+                      [&partitions]() -> double {
                           //get iterator to the biggest and smallest partition
                           auto [smallest_iter, biggest_iter] =
                               std::minmax_element(std::cbegin(partitions),
@@ -164,8 +157,7 @@ auto part::getVertexBalancing(const std::vector<Partition>& partitions)
 
                           return (biggest - smallest)
                               / static_cast<double>(biggest);
-                      },
-                      std::cref(partitions));
+                      });
 }
 
 
@@ -174,8 +166,7 @@ auto part::getKminus1Metric(const std::vector<Partition>& partitions,
     -> std::future<std::size_t>
 {
     return std::async(std::launch::async,
-                      [](auto&& partitions,
-                         auto edges_in_graph)
+                      [&partitions, &edges_in_graph]()
                           -> std::size_t {
                           return std::accumulate(std::cbegin(partitions),
                                                  std::cend(partitions),
@@ -184,7 +175,5 @@ auto part::getKminus1Metric(const std::vector<Partition>& partitions,
                                                      return init + part.getEdges().size();
                                                  })
                               - edges_in_graph;
-                      },
-                      std::cref(partitions),
-                      edges_in_graph);
+                      });
 }
