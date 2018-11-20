@@ -72,3 +72,8 @@ For example:
 ```
 This would be a hypergraph with node `4` connected to edges `1,2,3,4,5` and so on.
 This file format was used in the paper.
+
+
+## Paper
+Christian Mayer, Ruben Mayer, Sukanya Bhowmik, Lukas Epple and Kurt Rothermel, “HYPE: Massive Hypergraph Partitioning with Neighborhood Expansion”, accepted at 2018 IEEE International Conference on Big Data (BigData ‘18), to appear.
+Preprint available on ArXiv: https://arxiv.org/abs/1810.11319
