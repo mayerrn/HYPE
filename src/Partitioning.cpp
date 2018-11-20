@@ -166,7 +166,7 @@ auto part::getKminus1Metric(const std::vector<Partition>& partitions,
     -> std::future<std::size_t>
 {
     return std::async(std::launch::async,
-                      [&partitions, &edges_in_graph]()
+                      [&partitions, edges_in_graph]()
                           -> std::size_t {
                           return std::accumulate(std::cbegin(partitions),
                                                  std::cend(partitions),
