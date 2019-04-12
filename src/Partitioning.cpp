@@ -17,7 +17,8 @@ auto part::partitionGraph(Hypergraph&& graph,
     -> std::vector<Partition>
 {
     const auto delta = graph.getVertices().size()
-        / number_of_partitions;
+            / number_of_partitions
+        + 1;
 
     const auto max_edge_size =
         graph.getEdgesizeOfPercentBiggestEdge(ignore_biggest_edges_in_percent);
