@@ -16,9 +16,11 @@ auto part::partitionGraph(Hypergraph&& graph,
                           NodeSelectionMode node_select_flag)
     -> std::vector<Partition>
 {
-    const auto delta = graph.getVertices().size()
-            / number_of_partitions
-        + 1;
+    //https://stackoverflow.com/questions/2745074/
+    //fast-ceiling-of-an-integer-division-in-c-c/2745086#2745086
+    const auto delta = (graph.getVertices().size()
+                        + number_of_partitions - 1)
+        / number_of_partitions;
 
     const auto max_edge_size =
         graph.getEdgesizeOfPercentBiggestEdge(ignore_biggest_edges_in_percent);
