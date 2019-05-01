@@ -16,15 +16,23 @@ auto part::partitionGraph(Hypergraph&& graph,
                           NodeSelectionMode node_select_flag)
     -> std::vector<Partition>
 {
-    //https://stackoverflow.com/questions/2745074/
-    //fast-ceiling-of-an-integer-division-in-c-c/2745086#2745086
-    const auto delta = (graph.getVertices().size()
-                        + number_of_partitions - 1)
-        / number_of_partitions;
+    // All the partitions will have a similar number of nodes, with a difference of at most 1 node.
+    // For example, having 95 nodes and 10 partitions, the first 5 partitions will have 10 nodes each,
+    // and the last 5 partitions will have 9 nodes each.
+    const auto delta = graph.getVertices().size() / number_of_partitions; // truncated
+    const auto padded_partitions = graph.getVertices().size() - number_of_partitions*delta;
+
+    // helper function to check if the partition is full
+    auto is_partition_full = [&delta, &padded_partitions](std::size_t index, auto&& partition) {
+        if (index < padded_partitions) {
+            return partition.numberOfNodes() >= delta + 1; 
+        } else {
+            return partition.numberOfNodes() >= delta;
+        } 
+    };
 
     const auto max_edge_size =
         graph.getEdgesizeOfPercentBiggestEdge(ignore_biggest_edges_in_percent);
-
 
     std::vector<Partition> part_vec;
 
@@ -36,12 +44,7 @@ auto part::partitionGraph(Hypergraph&& graph,
                    num_neigs_flag,
                    node_select_flag};
 
-        //helper function to check if the partition is full
-        auto is_partition_full = [&delta](auto&& partition) {
-            return partition.numberOfNodes() >= delta;
-        };
-
-        while(!is_partition_full(part)
+        while(!is_partition_full(i, part)
               && !graph.getVertices().empty()) {
 
             auto next_node = s_set.getNextNode();
