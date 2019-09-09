@@ -207,13 +207,21 @@ auto main(int argc, char const* argv[])
     }
 
     if(output) {
+        std::cout
+            << "----------------------------------------------------------------------------\n"
+            << "writing partitions ...\n";
+
         for(std::size_t i{0}; i < parts.size(); ++i) {
-            auto filename = "partition_" + std::to_string(i);
+            auto filename = input_path + "_partition_" + std::to_string(i);
             auto part_content = parts[i].toString();
 
             std::ofstream out{filename};
             out << part_content;
         }
+
+        std::cout
+            << "----------------------------------------------------------------------------\n"
+            << "done\n";
     }
 
     return 0;
