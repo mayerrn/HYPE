@@ -24,6 +24,10 @@ auto main(int argc, char const* argv[])
          po::bool_switch()->default_value(false),
          "output raw numbers to make it easier to redirect output into files")
 
+        ("output,o",
+         po::bool_switch()->default_value(false),
+         "write the final partitions into files")
+
         ("input,i",
          po::value<std::string>(),
          "input hypergraph file")
@@ -82,6 +86,7 @@ auto main(int argc, char const* argv[])
     auto numb_of_neigs_flag = vm["heuristic-calc-method"].as<part::NodeHeuristicMode>();
     auto node_select_flag = vm["node-select-mode"].as<part::NodeSelectionMode>();
     auto raw = vm["raw"].as<bool>();
+    auto output = vm["output"].as<bool>();
     auto numb_of_can = vm["nh-expand-candidates"].as<std::size_t>();
     auto seed = vm["seed"].as<std::uint32_t>();
 
@@ -199,6 +204,16 @@ auto main(int argc, char const* argv[])
                   << "partition time: " << partitioning_time << "\n"
                   << "total time: " << (parsing_time + partitioning_time)
                   << std::endl;
+    }
+
+    if(output) {
+        for(std::size_t i{0}; i < parts.size(); ++i) {
+            auto filename = "partition_" + std::to_string(i);
+            auto part_content = parts[i].toString();
+
+            std::ofstream out{filename};
+            out << part_content;
+        }
     }
 
     return 0;

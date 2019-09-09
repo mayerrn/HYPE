@@ -1,6 +1,8 @@
 #include <Partition.hpp>
 #include <algorithm>
+#include <iterator>
 #include <numeric>
+#include <string>
 
 
 part::Partition::Partition(std::size_t id)
@@ -98,4 +100,17 @@ auto part::Partition::externalDegree(const std::vector<Partition>& parts) const
                                                      return init;
                                                  });
                       });
+}
+
+
+auto part::Partition::toString() const
+    -> std::string
+{
+    return std::accumulate(std::cbegin(_nodes),
+                           std::cend(_nodes),
+                           "id:" + std::to_string(_id) + "\nnodes:\n",
+                           [](auto init, auto node) {
+                               auto node_str = std::to_string(node) + "\n";
+                               return init + std::move(node_str);
+                           });
 }

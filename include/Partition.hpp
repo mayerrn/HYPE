@@ -68,6 +68,9 @@ public:
     auto externalDegree(const std::vector<Partition>& parts) const
         -> std::future<std::size_t>;
 
+    auto toString() const
+        -> std::string;
+
 private:
     std::size_t _id; //id of the partition
     std::unordered_set<int64_t> _nodes; //nodes in partition
