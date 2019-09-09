@@ -31,6 +31,7 @@ Parameter | Effect
 `help,h` | display help message
 `raw,r` | if set, output is formatted in csv to make it easier to plot directly. If not set, the output is more verbose.
 `input,i`| input hypergraph file
+`output,o`| if set, final partitions will be written into files in the directory of the given graph
 `format,f` | specify the input format of the hypergraph file
 `partitions,p` | number of partitions
 `sset-size,s` | maximum size of the secondary set (called 'fringe' in the paper); in paper, this is set to 10
