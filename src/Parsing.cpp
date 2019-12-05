@@ -2,6 +2,10 @@
 #include <Parsing.hpp>
 #include <algorithm>
 #include <boost/fusion/adapted/std_tuple.hpp>
+#include <boost/fusion/include/at.hpp>
+#include <boost/fusion/mpl.hpp>
+#include <boost/fusion/sequence/intrinsic/at.hpp>
+#include <boost/fusion/sequence/intrinsic_fwd.hpp>
 #include <boost/spirit/home/x3.hpp>
 #include <boost/spirit/include/support_istream_iterator.hpp>
 #include <fstream>
@@ -67,14 +71,12 @@ auto generate_hmetis_graph_parser(part::Hypergraph& graph)
 auto generate_bipartite_graph_parser(part::Hypergraph& graph)
 {
     namespace x3 = boost::spirit::x3;
-    namespace fusion = boost::fusion;
+    using boost::fusion::at;
+    using boost::mpl::int_;
 
     auto parsing_function = [&graph](auto&& ctx) {
-        int64_t vtx;
-        int64_t edge;
-        auto tup = std::tie(edge, vtx);
-
-        fusion::move(std::move(x3::_attr(std::move(ctx))), tup);
+        auto edge = at<int_<0>>(x3::_attr(ctx));
+        auto vtx = at<int_<1>>(x3::_attr(ctx));
 
         graph.connect(edge, vtx);
     };
